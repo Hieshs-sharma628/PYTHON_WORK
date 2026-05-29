@@ -1,6 +1,10 @@
 import datetime
 import os
 import json
+import streamlit as st
+
+JSON_FILE = "Personal_Finance_Expense.json"
+TXT_FILE = "Personal_Finance_Expense.txt"
 
 class whole_processor:
     def menu(self):
@@ -58,8 +62,8 @@ class whole_processor:
                 f.write("Type\tCategory\tDate&Time\tAmount\n")
 
     def income(self):
-        jsonfile = "Personal_Finance_Expense.json"
-        txtfile = "Personal_Finance_Expense.txt"
+        jsonfile = JSON_FILE
+        txtfile = TXT_FILE
         self._migrate_from_txt(txtfile, jsonfile)
         Category = input("\nEnter Category: ").strip()
         if not Category:
@@ -80,8 +84,8 @@ class whole_processor:
         self._save_data(jsonfile, data)
 
     def expense(self):
-        jsonfile = "Personal_Finance_Expense.json"
-        txtfile = "Personal_Finance_Expense.txt"
+        jsonfile = JSON_FILE
+        txtfile = TXT_FILE
         self._migrate_from_txt(txtfile, jsonfile)
         Category = input("\nEnter Category: ").strip()
         if not Category:
@@ -102,8 +106,8 @@ class whole_processor:
         self._save_data(jsonfile, data)
 
     def summary(self):
-        jsonfile = "Personal_Finance_Expense.json"
-        txtfile = "Personal_Finance_Expense.txt"
+        jsonfile = JSON_FILE
+        txtfile = TXT_FILE
         self._migrate_from_txt(txtfile, jsonfile)
         data = self._load_data(jsonfile)
         if not data:
@@ -125,6 +129,88 @@ class whole_processor:
         print(f"\nTotal Income: {total_income}")
         print(f"Total Expense: {total_expense}")
         print(f"Balance: {balance}\n")
+
+
+def add_record(record_type, category, amount):
+    processor = whole_processor()
+    processor._migrate_from_txt(TXT_FILE, JSON_FILE)
+    data = processor._load_data(JSON_FILE)
+    data.append({
+        "type": record_type,
+        "category": category,
+        "datetime": datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "amount": float(amount),
+    })
+    processor._save_data(JSON_FILE, data)
+
+
+def get_records():
+    processor = whole_processor()
+    processor._migrate_from_txt(TXT_FILE, JSON_FILE)
+    return processor._load_data(JSON_FILE)
+
+
+def calculate_totals(records):
+    total_income = 0.0
+    total_expense = 0.0
+    for item in records:
+        try:
+            amount = float(item.get("amount", 0))
+        except (TypeError, ValueError):
+            continue
+        record_type = str(item.get("type", "")).strip().lower()
+        if record_type == "income":
+            total_income += amount
+        elif record_type == "expense":
+            total_expense += amount
+    return total_income, total_expense, total_income - total_expense
+
+
+def run_streamlit_app():
+    import streamlit as st
+
+    st.set_page_config(page_title="Money Tracker", page_icon="💰", layout="wide")
+    st.title("Money Tracker")
+
+    records = get_records()
+    total_income, total_expense, balance = calculate_totals(records)
+
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Total Income", f"{total_income:.2f}")
+    col2.metric("Total Expense", f"{total_expense:.2f}")
+    col3.metric("Balance", f"{balance:.2f}")
+
+    st.divider()
+
+    with st.form("record_form", clear_on_submit=True):
+        record_type = st.selectbox("Type", ["Income", "Expense"])
+        category = st.text_input("Category")
+        amount = st.number_input("Amount", min_value=0.0, step=1.0)
+        submitted = st.form_submit_button("Add Record")
+
+    if submitted:
+        if not category.strip():
+            st.error("Category cannot be empty.")
+        elif amount <= 0:
+            st.error("Amount must be greater than zero.")
+        else:
+            add_record(record_type, category.strip(), amount)
+            st.success(f"{record_type} added.")
+            st.rerun()
+
+    st.subheader("Records")
+    if records:
+        st.dataframe(records, use_container_width=True, hide_index=True)
+    else:
+        st.info("No records found.")
+
+
+def is_streamlit_running():
+    try:
+        from streamlit.runtime.scriptrunner import get_script_run_ctx
+    except ImportError:
+        return False
+    return get_script_run_ctx() is not None
 
 
 def main():
@@ -154,4 +240,7 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    if is_streamlit_running():
+        run_streamlit_app()
+    else:
+        main()

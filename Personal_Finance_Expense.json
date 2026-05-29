@@ -1,0 +1,20 @@
+[
+  {
+    "type": "Income",
+    "category": "Food",
+    "datetime": "2026-05-29 15:50:15",
+    "amount": 10000.0
+  },
+  {
+    "type": "Income",
+    "category": "Teaching",
+    "datetime": "2026-05-29 15:52:58",
+    "amount": 10000.0
+  },
+  {
+    "type": "Expense",
+    "category": "Food",
+    "datetime": "2026-05-29 15:53:22",
+    "amount": 1000.0
+  }
+]
