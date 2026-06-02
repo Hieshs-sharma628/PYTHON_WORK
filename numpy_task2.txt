@@ -1,0 +1,15 @@
+Next Challenge (Slightly Harder)
+
+Try solving this without loops:
+
+scores = np.array([78, 45, 89, 92, 56, 73, 88, 61, 99, 67])
+
+Tasks:
+
+Find all scores above the average.
+Replace all scores below 60 with 0.
+Find the top 3 highest scores.
+Count how many students scored at least 75.
+Convert the array into a 2×5 matrix.
+Find the average of each row.
+Find the average of each column.
