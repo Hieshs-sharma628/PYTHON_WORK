@@ -13,3 +13,40 @@ Count how many students scored at least 75.
 Convert the array into a 2×5 matrix.
 Find the average of each row.
 Find the average of each column.
+
+
+Part 2: Reshaping
+
+Convert the array into a 2 × 5 matrix:
+
+Expected shape:
+
+[[78 45 89 92 56]
+ [73 88 61 99 67]]
+Check the shape.
+Print the first row.
+Print the second column.
+Print the last column.
+
+Part 3: Axis Practice
+
+Using the 2 × 5 matrix:
+
+Find the sum of each row.
+Find the sum of each column.
+Find the average of each row.
+Find the average of each column.
+Find the maximum value in each row.
+Find the minimum value in each column.
+Bonus Challenge 🔥
+
+Without using loops:
+
+Create a new array containing only scores between 60 and 90 (inclusive).
+Find the indices of scores greater than 80.
+
+Example output:
+
+[2 3 6 8]
+
+Try solving all 20 tasks. If you get stuck, solve as many as you can and send the code. I'll review it and show the most NumPy-idiomatic solutions.
