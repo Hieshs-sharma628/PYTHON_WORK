@@ -1,0 +1,33 @@
+# Pandas Tasks for the Titanic Dataset
+1. Load CSV.
+6. Check data types.
+7. Count null values.
+2. Show first 10 rows.
+3. Show last 10 rows.
+4. Check shape.
+5. Display column names.
+6. Check data types.
+7. Count null values.
+8. Fill missing ages.
+9. Drop rows with null Embarked.
+10. Count males and females.
+11. Average age.
+12. Maximum fare.
+13. Minimum fare.
+14. Sort by Fare.
+15. Find oldest passenger.
+16. Find youngest passenger.
+17. Survivors count.
+18. Non-survivors count.
+19. Survival rate.
+20. Group by Sex.
+21. Group by Pclass.
+22. Average fare by class.
+23. Average age by gender.
+24. Passengers above age 50.
+25. Passengers below age 18.
+26. Create Age Category column.
+27. Value counts of Embarked.
+28. Find duplicates.
+29. Export cleaned dataset.
+30. Create summary report.
